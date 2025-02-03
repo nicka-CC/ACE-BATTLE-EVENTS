@@ -18,6 +18,40 @@ const uploadFiles = multer({ storage: storage });
 const router = express.Router();
 const prisma = new PrismaClient();
 
+router.get("/get", async (req,res)=>{
+  try{
+    const {search = '', current_page = 1, items_per_page = 10} = req.query;
+    const skip = (current_page - 1) * items_per_page
+    const events = await prisma.event.findMany({
+      where: {
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      },
+      skip: skip,
+      take: Number(items_per_page),
+    });
+    const total = await prisma.event.count({
+      where: {
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    res.json({
+      events,
+      total,
+      current_page: Number(current_page),
+      total_pages: Math.ceil(total / Number(items_per_page)),
+    });
+  }catch{
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+})
 router.post("/create", authCheckMiddleware, async (req, res) => {
   const { name, start_date, start_time, end_date, discipline, category, contry, city, street, postal_code } = req.body;
   const userId = req.user.id;
