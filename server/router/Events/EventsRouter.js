@@ -21,6 +21,7 @@ const prisma = new PrismaClient();
 router.get("/get", async (req,res)=>{
   try{
     const {search = '', current_page = 1, items_per_page = 10} = req.query;
+    const {year, country} = req.body;
     const skip = (current_page - 1) * items_per_page
     const events = await prisma.event.findMany({
       where: {
@@ -28,6 +29,72 @@ router.get("/get", async (req,res)=>{
           contains: search,
           mode: 'insensitive',
         },
+        category: {
+          not: "closen",
+        },
+        ...(year && {
+          startDate: {
+            gte: new Date(`${year}-01-01T00:00:00.000Z`),
+            lt: new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`),
+          },
+        }),
+        ...(country && {
+          contry: {
+            contains: country,
+            mode: "insensitive",
+          },
+        }),
+      },
+      skip: skip,
+      take: Number(items_per_page),
+    });
+    const total = await prisma.event.count({
+      where: {
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
+        category: {
+          not: "closen",
+        },
+        ...(year && {
+          startDate: {
+            gte: new Date(`${year}-01-01T00:00:00.000Z`),
+            lt: new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`),
+          },
+        }),
+        ...(country && {
+          contry: {
+            contains: country,
+            mode: "insensitive",
+          },
+        }),
+      },
+    });
+    res.json({
+      events,
+      total,
+      current_page: Number(current_page),
+      total_pages: Math.ceil(total / Number(items_per_page)),
+    });
+  }catch{
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+router.get("/get/closen", async (req,res)=>{
+  try{
+    const {search = '', current_page = 1, items_per_page = 10} = req.query;
+    const skip = (current_page - 1) * items_per_page
+    const events = await prisma.event.findMany({
+      where: {
+        title: {
+          contains: search,
+          mode: 'insensitive',
+        },
+        category:{
+          contains: 'closen',
+          mode: 'insensitive',
+        }
       },
       skip: skip,
       take: Number(items_per_page),
