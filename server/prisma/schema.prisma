@@ -48,6 +48,7 @@ model Event {
   street        String
   prices        Prices[]
   media         Image[]
+  team          Team[]
   postalCode    String
   Transaction   Transaction? @relation(fields: [transactionId], references: [id])
   transactionId Int?
@@ -73,17 +74,20 @@ model Image {
 }
 
 model Team {
-  id            Int          @id @default(autoincrement()) @map("_id")
-  name          String
-  club          String
-  country       String
-  city          String
-  coathName     String
-  gender        String
-  sname         String
+  id        Int    @id @default(autoincrement()) @map("_id")
+  name      String
+  club      String
+  country   String
+  city      String
+  coathName String
+  gender    String
+  sname     String
+
   players       Player[]
   Transaction   Transaction? @relation(fields: [transactionId], references: [id])
   transactionId Int?
+  Event         Event?       @relation(fields: [eventId], references: [id])
+  eventId       Int?
 }
 
 model Player {
