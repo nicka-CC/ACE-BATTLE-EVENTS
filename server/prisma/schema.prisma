@@ -74,15 +74,15 @@ model Image {
 }
 
 model Team {
-  id        Int    @id @default(autoincrement()) @map("_id")
-  name      String
-  club      String
-  country   String
-  city      String
-  coathName String
-  gender    String
-  sname     String
-
+  id            Int          @id @default(autoincrement()) @map("_id")
+  name          String
+  club          String
+  country       String
+  city          String
+  coathName     String
+  gender        String
+  sname         String
+  races         Races[]
   players       Player[]
   Transaction   Transaction? @relation(fields: [transactionId], references: [id])
   transactionId Int?
@@ -99,4 +99,15 @@ model Player {
   image     Image[]
   Team      Team?   @relation(fields: [teamId], references: [id])
   teamId    Int?
+}
+
+model Races {
+  id       Int      @id @default(autoincrement()) @map("_id")
+  Date     DateTime
+  location String
+  result   String
+  place    Int
+  Race     String
+  Team     Team?    @relation(fields: [teamId], references: [id])
+  teamId   Int?
 }
