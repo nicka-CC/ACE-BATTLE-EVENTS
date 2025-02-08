@@ -48,6 +48,10 @@ model Event {
   street        String
   prices        Prices[]
   media         Image[]
+  location1     String?
+  location2     String?
+  location3     String?
+  location4     String?
   team          Team[]
   postalCode    String
   Transaction   Transaction? @relation(fields: [transactionId], references: [id])

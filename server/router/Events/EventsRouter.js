@@ -119,6 +119,30 @@ router.get("/get/closen", async (req,res)=>{
   }
 
 })
+router.get("/full/:eventId",authCheckMiddleware,async(req, res)=>{
+  const {eventId} = req.params;
+  const userId = req.user.id;
+  try{
+    const user = await prisma.user.findUnique({where:{id:Number(userId)}});
+    if(user){
+      const event = await prisma.event.findUnique({where:{id:Number(eventId)},include:{team:true}});
+      const teamCount = await prisma.team.count({where:{eventId:Number(eventId)}});
+      const teams = await prisma.team.findMany({where:{eventId:Number(eventId)},include:{races:true,players:true}});
+      const playersCount = teams.reduce((total, team) => total + team.players.length, 0);
+      const racesCount = teams.reduce((total, team) => total + team.races.length, 0);
+      res.status(200).json({
+        teamCount,
+        playersCount,
+        racesCount,
+        event});
+    }else{
+      res.status(403).json({ error: "Forbidden: User does not have admin rights!" });
+    }
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+})
 router.post("/create", authCheckMiddleware, async (req, res) => {
   const { name, start_date, start_time, end_date, discipline, category, contry, city, street, postal_code } = req.body;
   const userId = req.user.id;
