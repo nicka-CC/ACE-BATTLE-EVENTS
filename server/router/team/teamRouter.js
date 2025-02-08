@@ -17,6 +17,10 @@ const storage = multer.diskStorage({
 const uploadFiles = multer({ storage: storage });
 const router = express.Router();
 const prisma = new PrismaClient();
+
+
+
+
 router.post('/post', authCheckMiddleware,async(req, res)=>{
   const {name, club, country, city, coathName, gender, sname,players, eventId} = req.body;
   const userId = req.user.id;
@@ -46,6 +50,8 @@ router.post('/post', authCheckMiddleware,async(req, res)=>{
     });
   }
 })
+
+
 router.patch("/:teamId", authCheckMiddleware, async(req, res)=>{
   const {name, club, country, city, coathName, gender, sname,players, eventId} = req.body;
   const userId = req.user.id;
@@ -65,6 +71,10 @@ router.patch("/:teamId", authCheckMiddleware, async(req, res)=>{
     });
   }
 })
+
+
+
+
 router.get("/:teamId", authCheckMiddleware, async(req, res)=>{
   const userId = req.user.id;
   const {teamId} = req.params;
@@ -83,6 +93,55 @@ router.get("/:teamId", authCheckMiddleware, async(req, res)=>{
     });
   }
 })
+
+
+
+
+router.get("/full/:teamId", async(req, res)=>{
+   const {teamId} = req.params;
+  try{
+    const {current_page = 1, items_per_page = 4} = req.query;
+    const skip = (current_page - 1) * items_per_page
+      const team = await prisma.team.findUnique({where:{id:Number(teamId)}});
+      const players = await prisma.player.findMany({where:{teamId:Number(teamId)}})
+    const races = await prisma.races.findMany(
+      {
+        where:
+          {
+            teamId:Number(teamId)},
+            skip: skip,
+            take: Number(items_per_page)
+          }
+        );
+    const racesCount = await prisma.races.count(
+      {
+        where:
+          {
+            teamId:Number(teamId)
+          }
+      }
+    );
+      res.status(200).json(
+        {
+          team,
+          players,
+          races,
+          current_page: Number(current_page),
+          total_pages: Math.ceil(racesCount / Number(items_per_page)),
+        }
+      );
+
+  }catch(error){
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+})
+
+
+
+
 router.delete("/:teamId", authCheckMiddleware, async(req, res)=>{
   const userId = req.user.id;
   const {teamId} = req.params;

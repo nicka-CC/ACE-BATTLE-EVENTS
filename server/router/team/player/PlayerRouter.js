@@ -70,7 +70,7 @@ router.delete("/:teamId/player/:playerId", authCheckMiddleware, async (req, res)
         return res.status(404).json({ error: "Player not found in this team" });
       }
 
-      
+
       if (existingPlayer.image.length > 0) {
         await prisma.image.deleteMany({
           where: { playerId: Number(playerId) }
@@ -246,4 +246,87 @@ router.get("/players/:teamId", authCheckMiddleware, async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+router.post("/player/:teamId/races", authCheckMiddleware, async(req, res)=>{
+  const userId = req.user.id;
+  const {teamId} = req.params;
+  const {Date, location, result, place, Race} = req.body;
+  try{
+    const user = await prisma.user.findUnique({where:{id:Number(userId)}});
+    if (user && user.permissions === 2){
+      const newRecord = await prisma.races.create({data:{Date, location, result, place, Race, teamId:Number(teamId)}});
+      res.status(200).json(newRecord);
+    }else{
+      res.status(403).json({ error: "Forbidden: User does not have permissions!" });
+    }
+
+  }catch(error){
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+})
+router.patch("/player/:teamId/race/:raceId", authCheckMiddleware, async(req, res)=>{
+  const userId = req.user.id;
+  const {raceId} = req.params;
+  const {Date, location, result, place, Race} = req.body;
+  try{
+    const user = await prisma.user.findUnique({where:{id:Number(userId)}});
+    if(user && user.permissions === 2){
+      const updateRecord = await prisma.races.update({where:{id:Number(raceId)},
+      data:{Date, location, result, place, Race}});
+      res.status(200).json(updateRecord);
+    }else{
+      res.status(403).json({ error: "Forbidden: User does not have permissions!" });
+    }
+  }catch(error){
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+})
+router.delete("/player/:teamId/races/:raceId", authCheckMiddleware, async(req, res)=>{
+  const userId = req.user.id;
+  const {teamId, raceId} = req.params;
+  try{
+    const user = await prisma.user.findUnique({where:{id:Number(userId)}});
+    if(user && user.permissions === 2){
+      const deleteRecord = await prisma.races.delete({where:{id:Number(raceId)}});
+      res.status(200).json(deleteRecord);
+    } else{
+      res.status(403).json({ error: "Forbidden: User does not have permissions!" });
+    }
+  }catch(error){
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+})
+router.get("/player/:teamId/races", authCheckMiddleware, async(req, res)=>{
+  const userId = req.user.id;
+  const {teamId} = req.params;
+  try{
+    const user = await prisma.user.findUnique({where:{id:Number(userId)}});
+    if(user && user.permissions === 2){
+      const record = await prisma.races.findMany({where:{teamId:Number(teamId)}});
+      res.status(200).json(record);
+    }else{
+      res.status(403).json({ error: "Forbidden: User does not have permissions!" });
+    }
+  }catch(error){
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+})
 export default router;
