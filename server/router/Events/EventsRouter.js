@@ -143,6 +143,90 @@ router.get("/full/:eventId",authCheckMiddleware,async(req, res)=>{
     return res.status(500).json({ error: "Internal Server Error" });
   }
 })
+
+
+
+
+
+//get all events with filter, search pagination
+router.get("/all", authCheckMiddleware, async (req, res) => {
+  const userId = req.user.id;
+  const { search = '', current_page = 1, items_per_page = 6 } = req.query;
+  const { month, year, contry,last } = req.body;
+  const skip = (current_page - 1) * items_per_page;
+  const correctedMonth = month >= 1 && month <= 12 ? month : 1;
+  try {
+    const user = await prisma.user.findUnique({ where: { id: Number(userId) } });
+    if (user) {
+      const where = {
+        ...(search && {
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        }),
+        ...(month && !isNaN(Number(month)) && Number(month) >= 1 && Number(month) <= 12 && {
+          AND: [
+            { startDate: { gte: new Date(`${year}-${String(month).padStart(2, "0")}-01T00:00:00.000Z`) } },
+            { startDate: { lt: new Date(`${year}-${String(Number(month) + 1).padStart(2, "0")}-01T00:00:00.000Z`) } },
+          ],
+        }),
+        ...(year && {
+          startDate: {
+            gte: new Date(`${year}-01-01T00:00:00.000Z`),
+            lt: new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`),
+          },
+        }),
+        ...(last && last === false && {
+          startDate: {
+            lt: new Date(),
+          },
+        }),
+        ...(contry && {
+          contry: {
+            contains: contry,
+            mode: "insensitive",
+          },
+        }),
+      };
+
+      const [events, total] = await Promise.all([
+        prisma.event.findMany({
+          where,
+          include: { team: true },
+          skip,
+          take: Number(items_per_page),
+        }),
+        prisma.event.count({ where }),
+      ]);
+
+      const eventsPrint = events.map((ev) => ({
+        ...ev,
+        teamCount: ev.team.length,
+      }));
+
+      res.status(200).json({
+        events: eventsPrint,
+        total,
+        current_page: Number(current_page),
+        total_pages: Math.ceil(total / Number(items_per_page)),
+      });
+    } else {
+      res.status(403).json({ error: "Forbidden: User does not have admin rights!" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || "Unknown error",
+      details: JSON.stringify(error, null, 2),
+    });
+  }
+});
+
+
+
+
+
+
 router.post("/create", authCheckMiddleware, async (req, res) => {
   const { name, start_date, start_time, end_date, discipline, category, contry, city, street, postal_code } = req.body;
   const userId = req.user.id;
