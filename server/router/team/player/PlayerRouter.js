@@ -253,6 +253,7 @@ router.get("/players/:teamId", authCheckMiddleware, async (req, res) => {
 
 
 
+
 router.post("/player/:teamId/races", authCheckMiddleware, async(req, res)=>{
   const userId = req.user.id;
   const {teamId} = req.params;
