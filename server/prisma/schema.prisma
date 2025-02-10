@@ -19,8 +19,10 @@ model User {
   permissions  Int
   balance      Int
   password     String
+  team         Player[]
   registration Event[]
   transaction  Transaction[]
+  Team         Team[]
 }
 
 model Transaction {
@@ -92,6 +94,8 @@ model Team {
   transactionId Int?
   Event         Event?       @relation(fields: [eventId], references: [id])
   eventId       Int?
+  User          User?        @relation(fields: [userId], references: [id])
+  userId        Int?
 }
 
 model Player {
@@ -103,6 +107,8 @@ model Player {
   image     Image[]
   Team      Team?   @relation(fields: [teamId], references: [id])
   teamId    Int?
+  User      User?   @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model Races {

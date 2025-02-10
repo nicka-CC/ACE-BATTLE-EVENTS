@@ -5,9 +5,11 @@ import authRouter from "./router/auth/authRouter.js"
 import eventRouter from "./router/Events/EventsRouter.js"
 import teamRouter from "./router/team/teamRouter.js"
 import playerRouter from "./router/team/player/PlayerRouter.js"
+import balanceRouter from "./router/balance/balanceRouter.js"
 import path from "path";
 import os from 'os';
 import { fileURLToPath } from 'url';
+import userRouter from "./router/user/userRouter.js";
 dotenv.config();
 const app = express();
 const PORT = 5555;
@@ -20,6 +22,8 @@ app.use("/auth", authRouter );
 app.use("/event/team", teamRouter);
 app.use("/event/team",playerRouter);
 app.use("/event", eventRouter);
+app.use("/user/balance", balanceRouter);
+app.use("/user",userRouter)
 const networkInterfaces = os.networkInterfaces();
 const localIp = Object.values(networkInterfaces)
   .flat()
