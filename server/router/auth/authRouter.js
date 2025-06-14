@@ -1,11 +1,11 @@
 import express from 'express';
-import {PrismaClient} from "@prisma/client";
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import prisma from '../../prisma/client.js';
 import dotenv from 'dotenv';
 
-const prisma = new PrismaClient();
 const router = express.Router();
+
 router.post("/reg", async (req, res)=> {
   const {name, password, city,club, country, email, surname} = req.body;
   try{
