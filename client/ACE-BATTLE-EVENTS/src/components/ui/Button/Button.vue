@@ -20,7 +20,7 @@ const props = withDefaults(
     /**
      * size of the button
      */
-    size?: 'small' | 'medium' | 'large';
+    type?: 'icon' | 'form' | 'form-gray' | 'pagination';
     /**
      * background color of the button
      */
@@ -35,9 +35,7 @@ const emit = defineEmits<{
 
 const classes = computed(() => ({
   'storybook-button': true,
-  'storybook-button--primary': props.primary,
-  'storybook-button--secondary': !props.primary,
-  [`storybook-button--${props.size || 'medium'}`]: true,
+  [`storybook-button--${props.type || 'medium'}`]: true,
 }));
 
 const style = computed(() => ({

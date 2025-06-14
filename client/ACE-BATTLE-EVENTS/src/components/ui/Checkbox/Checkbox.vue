@@ -48,34 +48,31 @@ const emit = defineEmits<{
 
 .checkbox-custom {
   position: relative;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 20px;
+  width: 20px;
   background-color: white;
-  border: 2px solid #d1d5db;
-  border-radius: 0.25rem;
+  border: 2px solid #000000;
+  border-radius: 1rem;
   transition: all 0.2s;
 }
 
 .checkbox-input:checked ~ .checkbox-custom {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  background: rgba(0, 128, 0, 0);
 }
 
 .checkbox-input:checked ~ .checkbox-custom::after {
   content: '';
   position: absolute;
-  left: 0.375rem;
-  top: 0.125rem;
-  width: 0.25rem;
-  height: 0.5rem;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  width:12px;
+  height:12px;
+  margin: 4px;
+  background: #FF0000;
+  border-radius: 20px;
 }
 
 .checkbox-label {
-  font-size: 0.875rem;
-  color: #374151;
+  font-size: 23px;
+  color: #000000;
 }
 
 .checkbox-input:focus ~ .checkbox-custom {
