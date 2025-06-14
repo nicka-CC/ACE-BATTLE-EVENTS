@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import Input from './Input.vue'
