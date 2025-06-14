@@ -9,7 +9,7 @@
       class="input"
       :class="{ 'input-error': error }"
     />
-    <span v-if="error" class="error-message">{{ error }}</span>
+<!--    <span v-if="error" class="error-message">{{ error }}</span>-->
   </div>
 </template>
 
@@ -35,13 +35,13 @@ const emit = defineEmits<{
 }
 
 .input-label {
-  font-size: 0.875rem;
-  color: #374151;
+  font-size: 20px;
+  color: #000000;
 }
 
 .input {
   padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #000000;
   border-radius: 0.375rem;
   font-size: 1rem;
   color: #1f2937;
@@ -54,7 +54,6 @@ const emit = defineEmits<{
 
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 

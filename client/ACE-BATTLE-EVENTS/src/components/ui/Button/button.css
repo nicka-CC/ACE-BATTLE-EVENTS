@@ -7,24 +7,48 @@
   line-height: 1;
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.storybook-button--primary {
-  background-color: #555ab9;
-  color: white;
-}
-.storybook-button--secondary {
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
-  background-color: transparent;
-  color: #333;
-}
+
 .storybook-button--small {
   padding: 10px 16px;
   font-size: 12px;
 }
-.storybook-button--medium {
-  padding: 11px 20px;
-  font-size: 14px;
+.storybook-button--icon {
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #FF0000;
+  background: rgba(255, 0, 0, 0);
 }
-.storybook-button--large {
-  padding: 12px 24px;
-  font-size: 16px;
+.storybook-button--icon:hover {
+  background: rgba(255, 0, 0, 0.18);
+}
+.storybook-button--form {
+  padding: 2px 53px;
+  font-size: 20px;
+  border-radius: 10px;
+  border:1px solid #d5d5d5;
+}
+.storybook-button--form:hover {
+  border:1px solid rgba(255, 0, 0, 0.18);
+}
+.storybook-button--form-gray {
+  padding: 2px 12px;
+  font-size: 20px;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+}
+.storybook-button--form-gray:hover {
+  background-color: #eaeaea;
+}
+.storybook-button--pagination {
+  width:48px;
+  height: 48px;
+  border-radius: 0px;
+}
+.storybook-button--pagination:hover {
+  background:rgba(255, 0, 0, 0.18);
+}
+.storybook-button--pagination:active {
+  background:rgba(255, 0, 0, 0.18);
+  border:1px solid rgba(255, 0, 0, 1);
 }

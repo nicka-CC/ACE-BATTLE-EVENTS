@@ -1,71 +1,79 @@
 <script setup lang="ts">
-interface Option {
-  value: string | number;
-  label: string;
-}
+import { ref } from 'vue';
 
-defineProps<{
-  modelValue: string | number;
-  options: Option[];
-  placeholder?: string;
-  label?: string;
-}>();
+const isOpen = ref(false);
+const selectedValue = ref('EVENTS');
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-}>();
+const toggle = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const select = (action: string) => {
+  selectedValue.value = action === 'all' ? 'See all events' : 'Add new';
+  console.log('Selected:', action);
+  // emit или router.push по желанию
+};
 </script>
 
 <template>
-  <div class="select-wrapper">
-    <label v-if="label" class="select-label">{{ label }}</label>
-    <select
-      :value="modelValue"
-      @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
-      class="select"
-    >
-      <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
-      <option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-      >
-        {{ option.label }}
-      </option>
-    </select>
+  <div class="dropdown">
+    <button class="dropdown-header" @click="toggle">
+      <span class="title">{{ selectedValue }}</span>
+      <span class="arrow" :class="{ open: isOpen }">▼</span>
+    </button>
+
+    <div v-if="isOpen" class="dropdown-menu">
+      <div class="dropdown-item" @click="select('all')">See all events</div>
+      <div class="dropdown-item" @click="select('new')">Add new</div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.select-wrapper {
+.dropdown {
+  width: 200px;
+  font-family: sans-serif;
+  position: relative;
+}
+
+.dropdown-header {
+  width: 100%;
+  background-color: #ee342c;
+  color: white;
+  padding: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.select-label {
-  font-size: 0.875rem;
-  color: #374151;
-}
-
-.select {
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  background-color: white;
-  font-size: 1rem;
-  color: #1f2937;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.2s;
+  font-weight: bold;
 }
 
-.select:hover {
-  border-color: #9ca3af;
+.icon {
+  margin-right: 8px;
 }
 
-.select:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+.arrow {
+  transition: transform 0.3s ease;
 }
-</style> 
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  background-color: #471d1d; /* тёмно-красный */
+  color: #d1d5db; /* светло-серый */
+  border-top: 1px solid #fff;
+}
+
+.dropdown-item {
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #5a2a2a;
+}
+</style>
