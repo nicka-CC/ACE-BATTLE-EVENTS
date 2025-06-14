@@ -4,15 +4,16 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const isLoggedIn = ref(false);
+// Removed isLoggedIn reactive state as per new design
+// const isLoggedIn = ref(false);
 
-onMounted(() => {
-  isLoggedIn.value = !!localStorage.getItem('userToken');
-});
+// onMounted(() => {
+//   isLoggedIn.value = !!localStorage.getItem('userToken');
+// });
 
 const handleLogout = () => {
   localStorage.removeItem('userToken');
-  isLoggedIn.value = false; // Обновляем реактивное состояние
+  // isLoggedIn.value = false; // Обновляем реактивное состояние
   router.push({ name: 'login' });
 };
 </script>
@@ -20,15 +21,27 @@ const handleLogout = () => {
 <template>
   <div class="layout">
     <nav class="navbar">
-      <router-link to="/" class="nav-link">Главная</router-link>
-      <router-link to="/login" class="nav-link">Вход</router-link>
-      <router-link to="/register" class="nav-link">Регистрация</router-link>
-      <router-link to="/contacts" class="nav-link">Контакты</router-link>
-      <button v-if="isLoggedIn" @click="handleLogout" class="nav-link logout-button">Выход</button>
+      <div class="logo">ACE BATTLE EVENTS</div>
+      <div class="nav-links">
+        <router-link to="/" class="nav-link home-link">HOME</router-link>
+        <router-link to="/calendar" class="nav-link">CALENDAR</router-link>
+        <router-link to="/close-events" class="nav-link">CLOSE EVENTS</router-link>
+      </div>
+      <div class="auth-buttons">
+        <router-link to="/login" class="auth-button sign-in-button">Sign in</router-link>
+        <router-link to="/register" class="auth-button sign-up-button">Sign up</router-link>
+        <button v-if="false" @click="handleLogout" class="auth-button logout-button">Выход</button>
+      </div>
     </nav>
     <main class="main-content">
       <router-view></router-view>
     </main>
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">ACE BATTLE EVENTS</div>
+        <div class="footer-copyright">© 2023 Ace Battle Association</div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -40,27 +53,81 @@ const handleLogout = () => {
 }
 
 .navbar {
-  background-color: #2c3e50;
-  padding: 1rem;
+  background-color: #1a1a1a; /* Dark background as in image */
+  padding: 1rem 2rem;
   display: flex;
-  gap: 1rem;
+  justify-content: space-between; /* Space out items */
+  align-items: center;
+  color: white;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white; /* White text for logo */
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem; /* Space between nav links */
 }
 
 .nav-link {
   color: white;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  padding: 0.5rem 0;
+  transition: color 0.3s; /* Smooth transition for color */
 }
 
 .nav-link:hover {
-  background-color: #34495e;
+  color: #e74c3c; /* Red hover for nav links */
+}
+
+.home-link {
+  color: #e74c3c; /* Red for HOME link */
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-button {
+  background: none;
+  border: 1px solid #e74c3c; /* Red border */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none; /* For router-link */
+  font-size: 1rem;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.auth-button:hover {
+  background-color: #e74c3c; /* Red background on hover */
+}
+
+.sign-in-button {
+  background-color: #e74c3c; /* Red background for Sign in */
+}
+
+.sign-in-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  border-color: #c0392b;
+}
+
+.sign-up-button {
+  background-color: transparent; /* Transparent background for Sign up */
+}
+
+.sign-up-button:hover {
+  background-color: #e74c3c; /* Red background on hover */
 }
 
 .main-content {
   flex: 1;
-  padding: 2rem;
+  padding: 2rem 0; /* Changed padding to 2rem top/bottom, 0 left/right */
 }
 
 .logout-button {
@@ -77,5 +144,28 @@ const handleLogout = () => {
 
 .logout-button:hover {
   background-color: #34495e;
+}
+
+.footer {
+  background-color: #1a1a1a; /* Dark background as in image */
+  padding: 2rem; /* Adjusted padding for the footer */
+  color: white;
+  text-align: left;
+}
+
+.footer-content {
+  max-width: 1200px; /* Adjust as needed to match your content width */
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.footer-copyright {
+  font-size: 0.875rem;
+  color: #a0a0a0; /* Lighter grey for copyright text */
 }
 </style> 
