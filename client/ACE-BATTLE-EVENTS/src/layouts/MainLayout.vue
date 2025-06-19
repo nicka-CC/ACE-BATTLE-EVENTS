@@ -127,7 +127,7 @@ const handleLogout = () => {
 
 .main-content {
   flex: 1;
-  padding: 2rem 0; /* Changed padding to 2rem top/bottom, 0 left/right */
+  //padding: 2rem 0; /* Changed padding to 2rem top/bottom, 0 left/right */
 }
 
 .logout-button {

@@ -50,6 +50,8 @@ const emit = defineEmits<{
   position: relative;
   height: 20px;
   width: 20px;
+  min-height: 20px;
+  min-width: 20px;
   background-color: white;
   border: 2px solid #000000;
   border-radius: 1rem;
@@ -63,11 +65,13 @@ const emit = defineEmits<{
 .checkbox-input:checked ~ .checkbox-custom::after {
   content: '';
   position: absolute;
-  width:12px;
-  height:12px;
-  margin: 4px;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
   background: #FF0000;
-  border-radius: 20px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .checkbox-label {

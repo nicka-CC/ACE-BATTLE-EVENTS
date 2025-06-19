@@ -75,7 +75,7 @@ const routes: RouteRecordRaw[] = [
   // Маршруты авторизации и регистрации, использующие AuthLayout
   {
     path: '/',
-    component: AuthLayout,
+    component: MainLayout,
     children: [
       {
         path: 'login',

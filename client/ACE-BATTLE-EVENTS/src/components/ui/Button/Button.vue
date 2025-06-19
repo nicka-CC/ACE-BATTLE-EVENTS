@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button :type="buttonType" :class="classes" @click="onClick" :style="style">{{ label }}</button>
 </template>
 
 <script lang="ts" setup>
@@ -25,6 +25,7 @@ const props = withDefaults(
      * background color of the button
      */
     backgroundColor?: string;
+    buttonType?: 'button' | 'submit' | 'reset';
   }>(),
   { primary: false }
 );

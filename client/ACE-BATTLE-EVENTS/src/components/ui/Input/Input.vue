@@ -35,7 +35,7 @@ const emit = defineEmits<{
 }
 
 .input-label {
-  font-size: 20px;
+  font-size: 16px;
   color: #000000;
 }
 

@@ -1,85 +1,108 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Input from '../../components/ui/Input/Input.vue';
+import Button from '../../components/ui/Button/Button.vue';
 import { useRouter } from 'vue-router';
 
-const email = ref('');
-const password = ref('');
-const loginError = ref('');
 const router = useRouter();
+import { useAuth } from '../../composables/useAuth';
 
-const handleLogin = async () => {
-  loginError.value = '';
-  try {
-    const response = await fetch('http://localhost:5555/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: email.value, password: password.value }),
-    });
+const { email, password, loginError, handleLogin } = useAuth();
 
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log('Login successful:', data);
-      localStorage.setItem('userToken', data.token);
-      router.push({ name: 'admin' });
-    } else {
-      loginError.value = data.message || 'Ошибка авторизации';
-      console.error('Login failed:', data);
-    }
-  } catch (error) {
-    loginError.value = 'Сетевая ошибка или сервер недоступен';
-    console.error('Login error:', error);
-  }
-};
 </script>
 
 <template>
   <div class="auth-container">
-    <h2 class="auth-title">Вход</h2>
-    <form @submit.prevent="handleLogin" class="auth-form">
-      <Input
-        v-model="email"
-        type="email"
-        label="Email*"
-        placeholder="Введите ваш email"
-      />
-      <Input
-        v-model="password"
-        type="password"
-        label="Пароль*"
-        placeholder="Введите ваш пароль"
-      />
-      <button type="submit" class="auth-button">Войти</button>
-      <p v-if="loginError" class="error-message">{{ loginError }}</p>
-      <router-link to="/register" class="auth-link">У меня нет аккаунта, зарегистрироваться</router-link>
-    </form>
+    <img src="./IMG_1023%203.png" alt="header" class="img-sportsmen-header"/>
+    <div class="container-red">
+      <div class="red"></div>
+    </div>
+    <div class="line_button"></div>
+    <div class="form-container">
+      <div>
+        <img src="./_DSC6776.png" alt="img" class="img-sportsmen"/>
+      </div>
+      <div class="container-auth-form">
+        <form @submit.prevent="handleLogin" class="auth-form">
+          <h2 class="auth-title">Sign-In</h2>
+          <Input
+              v-model="email"
+              type="email"
+              label="Email*"
+              placeholder="Enter your email"
+          />
+          <Input
+              v-model="password"
+              type="password"
+              label="Password*"
+              placeholder="Enter your password"
+          />
+          <Button buttonType="submit" label="Connect AceBattleEvents" class="auth-button"></Button>
+          <p v-if="loginError" class="error-message">{{ loginError }}</p>
+          <router-link to="/register" class="auth-link">I don’t have an account yet, sign up</router-link>
+        </form>
+      </div>
+
+    </div>
+
   </div>
 </template>
 
 <style scoped>
+@media(max-width: 500px) {
+  .img-sportsmen-header {
+    display:none;
+  }
+  .img-sportsmen {
+    display:none;
+  }
+}
+.container-auth-form{
+  height: 524px
+}
+.img-sportsmen{
+  height: 524px
+}
+.form-container {
+  display:flex;
+  position: absolute
+}
+.line_button{
+  height:30px
+}
+.container-red{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+.img-sportsmen-header{
+  width: 100%;
+}
+.red{
+  background: #FF0000;
+  width:37%;
+  height:90%
+}
 .auth-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 120px); /* Adjust based on your header/footer height */
-  padding: 2rem;
+  min-height: calc(80vh); /* Adjust based on your header/footer height */
   background-color: #f7f7f7;
 }
 
 .auth-title {
   font-size: 2rem;
   color: #333;
+  text-align: center;
   margin-bottom: 1.5rem;
 }
 
 .auth-form {
+  height: 524px;
   background-color: white;
   padding: 2rem;
-  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
