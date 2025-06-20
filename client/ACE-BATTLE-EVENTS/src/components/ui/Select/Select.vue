@@ -1,30 +1,42 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const props = defineProps<{
+  modelValue: string | number;
+  options: { value: string | number; label: string }[];
+  placeholder?: string;
+}>();
+const emit = defineEmits(['update:modelValue']);
+
 const isOpen = ref(false);
-const selectedValue = ref('EVENTS');
 
 const toggle = () => {
   isOpen.value = !isOpen.value;
 };
 
-const select = (action: string) => {
-  selectedValue.value = action === 'all' ? 'See all events' : 'Add new';
-  console.log('Selected:', action);
-  // emit или router.push по желанию
+const select = (value: string | number) => {
+  emit('update:modelValue', value);
+  isOpen.value = false;
 };
 </script>
 
 <template>
   <div class="dropdown">
     <button class="dropdown-header" @click="toggle">
-      <span class="title">{{ selectedValue }}</span>
+      <span class="title">
+        {{ props.options.find(opt => opt.value === props.modelValue)?.label || props.placeholder || 'Выберите...' }}
+      </span>
       <span class="arrow" :class="{ open: isOpen }">▼</span>
     </button>
-
     <div v-if="isOpen" class="dropdown-menu">
-      <div class="dropdown-item" @click="select('all')">See all events</div>
-      <div class="dropdown-item" @click="select('new')">Add new</div>
+      <div
+        v-for="option in props.options"
+        :key="option.value"
+        class="dropdown-item"
+        @click="select(option.value)"
+      >
+        {{ option.label }}
+      </div>
     </div>
   </div>
 </template>
