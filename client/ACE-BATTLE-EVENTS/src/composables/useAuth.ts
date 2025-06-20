@@ -1,11 +1,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {API} from '@/constants/api.ts'
+import {useUserStore} from '@/store/user';
 export function useAuth() {
     const email = ref('');
     const password = ref('');
     const loginError = ref('');
     const router = useRouter();
+    const userStore = useUserStore();
 
 
     const handleLogin = async () => {
@@ -22,7 +24,9 @@ export function useAuth() {
             const data = await response.json();
 
             if (response.ok) {
+                userStore.setUser(data.user);
                 localStorage.setItem('userToken', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
                 router.push({ name: 'admin' });
             } else {
                 loginError.value = data.message || 'Error authentication failed';
