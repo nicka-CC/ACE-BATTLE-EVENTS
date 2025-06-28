@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 const uploadFiles = multer({ storage: storage });
 const router = express.Router();
 const prisma = new PrismaClient();
+
 router.post("/:teamId/player", uploadFiles.single("image"), authCheckMiddleware, async(req, res)=>{
   const userId = req.user.id;
   const {teamId} = req.params;
@@ -93,7 +94,6 @@ router.delete("/:teamId/player/:playerId", authCheckMiddleware, async (req, res)
     });
   }
 });
-
 router.patch("/:teamId/player/:playerId", uploadFiles.single("image"), authCheckMiddleware, async (req, res) => {
   const userId = req.user.id;
   const { teamId, playerId } = req.params;
@@ -164,10 +164,6 @@ router.patch("/:teamId/player/:playerId", uploadFiles.single("image"), authCheck
     });
   }
 });
-
-
-
-
 router.get("/:teamId/players/:playerId", authCheckMiddleware, async (req, res) => {
   const userId = req.user.id;
   const { teamId, playerId } = req.params;
@@ -207,10 +203,6 @@ router.get("/:teamId/players/:playerId", authCheckMiddleware, async (req, res) =
     });
   }
 });
-
-
-
-
 router.get("/players/:teamId", authCheckMiddleware, async (req, res) => {
   const userId = req.user.id;
   const { teamId } = req.params;
@@ -245,13 +237,6 @@ router.get("/players/:teamId", authCheckMiddleware, async (req, res) => {
     });
   }
 });
-
-
-
-
-
-
-
 
 router.post("/player/:teamId/races", authCheckMiddleware, async(req, res)=>{
   const userId = req.user.id;

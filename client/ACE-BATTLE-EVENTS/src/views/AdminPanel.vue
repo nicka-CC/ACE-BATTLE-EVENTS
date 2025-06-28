@@ -20,10 +20,6 @@ const selectOptions3 = ref([
   { value: 'teams-all', label: 'See all teams' },
   { value: 'teams-add', label: 'Add team' },
 ])
-const selectOptions4 = ref([
-  { value: 'clubs-all', label: 'See all clubs' },
-  { value: 'club-add', label: 'Add club' },
-])
 
 const selectedAction = ref('');
 const router = useRouter();
@@ -35,12 +31,10 @@ const handleSelect = (value) => {
     selectedAction.value = value;
     if (value === 'events-all') router.push('/admin-panel/events/all');
     else if (value === 'events-add') router.push('/admin-panel/events/add');
-    else if (value === 'players-all') router.push('/admin-panel/players');
+    else if (value === 'players-all') router.push('/admin-panel/players/all');
     else if (value === 'players-add') router.push('/admin-panel/players/add');
-    else if (value === 'teams-all') router.push('/admin-panel/teams');
+    else if (value === 'teams-all') router.push('/admin-panel/teams/all');
     else if (value === 'teams-add') router.push('/admin-panel/teams/add');
-    else if (value === 'clubs-all') router.push('/admin-panel/clubs');
-    else if (value === 'club-add') router.push('/admin-panel/club/add');
   }, 0);
 };
 </script>
@@ -55,13 +49,6 @@ const handleSelect = (value) => {
         @update:modelValue="handleSelect"
         placeholder="EVENTS"
         style="margin: 10px 1vh; width: 90%;"
-      />
-      <Select
-          :options="selectOptions4"
-          :modelValue="selectedAction"
-          @update:modelValue="handleSelect"
-          placeholder="CLUBS"
-          style="margin: 10px 1vh; width: 90%;"
       />
       <Select
           :options="selectOptions3"

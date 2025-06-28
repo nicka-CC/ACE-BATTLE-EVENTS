@@ -252,7 +252,7 @@ router.post("/create", authCheckMiddleware, async (req, res) => {
       res.status(403).json({ error: "Forbidden: User does not have admin rights!" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message, stack: error.stack });
   }
 });
 

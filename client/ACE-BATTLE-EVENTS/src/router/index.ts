@@ -12,9 +12,10 @@ import NotFoundPage from '../views/NotFoundPage.vue'
 // Admin Sub-views (placeholder components for now)
 import AdminEventsAll from '../views/Admin/AdminEventsAll.vue'
 import AdminEventsAdd from '../views/Admin/AdminEventsAdd.vue'
-import AdminClubs from '../views/Admin/AdminClubs.vue'
-import AdminTeams from '../views/Admin/AdminTeams.vue'
-import AdminPlayers from '../views/Admin/AdminPlayers.vue'
+import AdminTeamsAll from "@/views/Admin/AdminTeamsAll.vue";
+import AdminTeamsAdd from "@/views/Admin/AdminTeamsAdd.vue";
+import AdminPlayerAll from "@/views/Admin/AdminPlayerAll.vue";
+import AdminPlayersAdd from "@/views/Admin/AdminPlayersAdd.vue";
 
 const routes: RouteRecordRaw[] = [
   // Основные маршруты приложения, использующие MainLayout
@@ -49,19 +50,24 @@ const routes: RouteRecordRaw[] = [
             component: AdminEventsAdd
           },
           {
-            path: 'clubs',
-            name: 'admin-clubs',
-            component: AdminClubs
+            path: 'teams/all',
+            name: 'admin-teams-all',
+            component: AdminTeamsAll
           },
           {
-            path: 'teams',
-            name: 'admin-teams',
-            component: AdminTeams
+            path: 'teams/add',
+            name: 'admin-teams-add',
+            component: AdminTeamsAdd
           },
           {
-            path: 'players',
-            name: 'admin-players',
-            component: AdminPlayers
+            path: 'players/all',
+            name: 'admin-players-all',
+            component: AdminPlayerAll
+          },
+          {
+            path: 'players/add',
+            name: 'admin-players-add',
+            component: AdminPlayersAdd
           }
         ]
       },
