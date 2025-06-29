@@ -37,6 +37,7 @@
       <div class="join-center">
         <p>Join us in this extraordinary journey, where precision meets competition and running tournaments are transformed into epic battles. ACE Battle brings a new, unparalleled experience, giving you edge over your rivals. Join today and become history in the realm of running battles.</p>
       </div>
+
     </div>
     <!-- Additional resources -->
     <div class="resources-block">
