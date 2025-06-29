@@ -27,10 +27,10 @@ const handleLogout = () => {
         <router-link to="/close-events" class="nav-link">CLOSE EVENTS</router-link>
       </div>
       <div class="auth-buttons">
-        <div v-if="userStore.user" style="margin: auto 0; display:flex; gap:10px">
+        <a href="/add-coins" v-if="userStore.user" style="margin: auto 0; display:flex; gap:10px">
           <img src="@/components/icons/Coin.svg" alt="Coin" width="20px"  />
           {{ userStore.user.balance }} coins
-        </div>
+        </a>
         <div v-else style="display: flex;gap:20px;">
           <Button type="icon" label="Sign in" style="width: 100px; color:white; font-weight: 300" @click=" router.push({ name: 'login' });"/>
           <Button type="icon" label="Sign up" style="width: 100px; color:white; font-weight: 300" @click=" router.push({ name: 'register' });"/>

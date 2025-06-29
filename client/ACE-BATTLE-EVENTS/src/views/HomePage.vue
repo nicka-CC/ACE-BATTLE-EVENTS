@@ -9,7 +9,7 @@
       <div class="intro-menu">
         <div class="logo">ACE BATTLE EVENTS</div>
         <nav>
-          <a href="#" class="menu-link">Buy</a>
+          <a href="/add-coins" class="menu-link">Buy</a>
           <a href="#" class="menu-link">Analyse</a>
           <a href="#" class="menu-link">Register</a>
           <a href="#" class="menu-link">Win</a>
