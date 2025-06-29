@@ -8,6 +8,8 @@ import ContactsPage from '../views/ContactsPage.vue'
 import LoginPage from '../views/Auth/LoginPage.vue'
 import RegisterPage from '../views/Auth/RegisterPage.vue'
 import NotFoundPage from '../views/NotFoundPage.vue'
+import TeamRegisterSuccess from '../views/TeamRegisterSuccess.vue'
+import TeamRegisterError from '../views/TeamRegisterError.vue'
 
 // Admin Sub-views (placeholder components for now)
 import AdminEventsAll from '../views/Admin/AdminEventsAll.vue'
@@ -16,6 +18,7 @@ import AdminTeamsAll from "@/views/Admin/AdminTeamsAll.vue";
 import AdminTeamsAdd from "@/views/Admin/AdminTeamsAdd.vue";
 import AdminPlayerAll from "@/views/Admin/AdminPlayerAll.vue";
 import AdminPlayersAdd from "@/views/Admin/AdminPlayersAdd.vue";
+import AddTeamPage from "@/views/AddTeamPage.vue";
 
 const routes: RouteRecordRaw[] = [
   // Основные маршруты приложения, использующие MainLayout
@@ -27,6 +30,11 @@ const routes: RouteRecordRaw[] = [
         path: '',
         name: 'home',
         component: HomePage
+      },
+      {
+        path: 'add-team',
+        name: 'add-team',
+        component: AddTeamPage
       },
       {
         path: 'admin-panel',
@@ -92,6 +100,16 @@ const routes: RouteRecordRaw[] = [
         path: 'register',
         name: 'register',
         component: RegisterPage
+      },
+      {
+        path: 'register-team/success',
+        name: 'register-team-success',
+        component: TeamRegisterSuccess
+      },
+      {
+        path: 'register-team/error',
+        name: 'register-team-error',
+        component: TeamRegisterError
       },
       // Маршрут 404, использующий AuthLayout
       {
