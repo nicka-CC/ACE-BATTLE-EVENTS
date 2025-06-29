@@ -19,6 +19,7 @@ import AdminTeamsAdd from "@/views/Admin/AdminTeamsAdd.vue";
 import AdminPlayerAll from "@/views/Admin/AdminPlayerAll.vue";
 import AdminPlayersAdd from "@/views/Admin/AdminPlayersAdd.vue";
 import AddTeamPage from "@/views/AddTeamPage.vue";
+import AddCoinsPage from '../views/AddCoinsPage.vue'
 
 const routes: RouteRecordRaw[] = [
   // Основные маршруты приложения, использующие MainLayout
@@ -35,6 +36,11 @@ const routes: RouteRecordRaw[] = [
         path: 'add-team',
         name: 'add-team',
         component: AddTeamPage
+      },
+      {
+        path: 'add-coins',
+        name: 'add-coins',
+        component: AddCoinsPage
       },
       {
         path: 'admin-panel',
